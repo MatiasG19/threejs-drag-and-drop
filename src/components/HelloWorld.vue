@@ -1,6 +1,7 @@
 <template>
-  <canvas ref="canvas" class="canvas"></canvas>
-  
+<div>
+  <canvas ref="canvas" class=""></canvas>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +13,7 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 let engine!: Engine2D
 
 onMounted(() => {
+  console.log(canvas.value)
   engine = new Engine2D(canvas.value as HTMLCanvasElement)
 })
 
