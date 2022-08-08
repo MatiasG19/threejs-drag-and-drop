@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { BoxGeometry } from 'three'
+import { Mesh, BoxGeometry, MeshBasicMaterial } from 'three'
 import { DragControls } from './dragControls'
 
 export class Engine2D {
@@ -29,7 +29,7 @@ export class Engine2D {
         this.camera.position.z = 1000;
 
         // Box
-        const geometry = new THREE.BoxGeometry(400, 400, 400)
+        const geometry = new THREE.BoxGeometry(200, 200, 400)
         const material = new THREE.MeshBasicMaterial({ color: 0x0000ff })
         const box = new THREE.Mesh(geometry, material)
         box.position.x = 20
@@ -38,6 +38,17 @@ export class Engine2D {
 
         this.scene.add(box)
         this.objects.push(box)
+
+        // Box2
+        const geometry2 = new THREE.BoxGeometry(200, 200, 400)
+        const material2 = new THREE.MeshBasicMaterial({ color: 0xFF5500 })
+        const box2 = new THREE.Mesh(geometry2, material2)
+        box2.position.x = -20
+        box2.position.y = 20
+        box2.position.z = 10
+
+        this.scene.add(box2)
+        this.objects.push(box2)
 
         // Renderer
         this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true })
@@ -57,12 +68,8 @@ export class Engine2D {
     }
 
     private onPointerDown(event: THREE.Event) {
-        const object = this.objects.filter(o => o == event.object)[0]
-        // console.log(object)
-        const material = new THREE.MeshLambertMaterial({ color: 0x009992 })
-        // object.material= material
-        // object.material.emissive.set(0x009992)
-        object.material.color = new THREE.Color(0x009992)
+        const object = this.objects.filter(o => o == event.object)[0] as Mesh<BoxGeometry, MeshBasicMaterial>
+        object.material.color.addScalar(0.5)
         this.renderer.render(this.scene, this.camera)
     }
 
@@ -71,8 +78,8 @@ export class Engine2D {
     }
 
     private onPointerUp(event: THREE.Event) {
-        const object = this.objects.filter(o => o == event.object)[0]
-        object.material.color = new THREE.Color(0x0000ff)
+        const object = this.objects.filter(o => o == event.object)[0] as Mesh<BoxGeometry, MeshBasicMaterial>
+        object.material.color.addScalar(-0.5)
         this.renderer.render(this.scene, this.camera)
     }
 
